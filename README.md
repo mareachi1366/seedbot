@@ -1,3 +1,5 @@
+API HAS BEEN UPDATED AND NOW WORKING AGAIN
+
 # SeedCoinBot
 🖱️ clicker for [https://t.me/seed_coin_bot](https://t.me/seed_coin_bot/app?startapp=558455838)
 
@@ -59,14 +61,3 @@ Before you begin, make sure you have the following installed:
    ```bash
    python main.py
    ```
- 
-# Telegram Channel
-
-✅ Channel for information and training on Telegram airdrop bots 🔷 Follow us on Telegram : [SIZIFAIRDROP](https://t.me/sizifairdrop)
-
-# Donate
-Your donations help us continue our work. Thank you for your support! | 💳 [Donate](https://sizvpn.com/donate/)  
-
-# Discussion
-
-If you have an question or something you can ask in here : [F.Davoodi](https://t.me/sizifart)
