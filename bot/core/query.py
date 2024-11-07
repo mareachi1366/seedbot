@@ -24,22 +24,22 @@ import traceback
 import time
 
 # api endpoint
-api_claim = 'https://elb.seeddao.org/api/v1/seed/claim'
-api_balance = 'https://elb.seeddao.org/api/v1/profile/balance'
-api_checkin = 'https://elb.seeddao.org/api/v1/login-bonuses'
-api_upgrade_storage = 'https://elb.seeddao.org/api/v1/seed/storage-size/upgrade'
-api_upgrade_mining = 'https://elb.seeddao.org/api/v1/seed/mining-speed/upgrade'
-api_upgrade_holy = 'https://elb.seeddao.org/api/v1/upgrades/holy-water'
-api_profile = 'https://elb.seeddao.org/api/v1/profile'
-api_hunt_completed = 'https://elb.seeddao.org/api/v1/bird-hunt/complete'
-api_bird_info = "https://elb.seeddao.org/api/v1/bird/is-leader"
-api_make_happy = 'https://elb.seeddao.org/api/v1/bird-happiness'
-api_get_worm_data = "https://elb.seeddao.org/api/v1/worms/me-all"
-api_feed = "https://elb.seeddao.org/api/v1/bird-feed"
-api_start_hunt = "https://elb.seeddao.org/api/v1/bird-hunt/start"
-api_inv = "https://elb.seeddao.org/api/v1/worms/me"
-api_sell = "https://elb.seeddao.org/api/v1/market-item/add"
-new_user_api = 'https://elb.seeddao.org/api/v1/profile2'
+api_claim = 'https://alb.seeddao.org/api/v1/seed/claim'
+api_balance = 'https://alb.seeddao.org/api/v1/profile/balance'
+api_checkin = 'https://alb.seeddao.org/api/v1/login-bonuses'
+api_upgrade_storage = 'https://alb.seeddao.org/api/v1/seed/storage-size/upgrade'
+api_upgrade_mining = 'https://alb.seeddao.org/api/v1/seed/mining-speed/upgrade'
+api_upgrade_holy = 'https://alb.seeddao.org/api/v1/upgrades/holy-water'
+api_profile = 'https://alb.seeddao.org/api/v1/profile'
+api_hunt_completed = 'https://alb.seeddao.org/api/v1/bird-hunt/complete'
+api_bird_info = "https://alb.seeddao.org/api/v1/bird/is-leader"
+api_make_happy = 'https://alb.seeddao.org/api/v1/bird-happiness'
+api_get_worm_data = "https://alb.seeddao.org/api/v1/worms/me-all"
+api_feed = "https://alb.seeddao.org/api/v1/bird-feed"
+api_start_hunt = "https://alb.seeddao.org/api/v1/bird-hunt/start"
+api_inv = "https://alb.seeddao.org/api/v1/worms/me"
+api_sell = "https://alb.seeddao.org/api/v1/market-item/add"
+new_user_api = 'https://alb.seeddao.org/api/v1/profile2'
 
 
 class Tapper:
@@ -149,13 +149,13 @@ class Tapper:
         payload = {
             "egg_id": egg_id
         }
-        res = await http_client.post('https://elb.seeddao.org/api/v1/egg-hatch/complete', json=payload)
+        res = await http_client.post('https://alb.seeddao.org/api/v1/egg-hatch/complete', json=payload)
         if res.status == 200:
             json_data = await res.json()
             logger.success(f"{self.session_name} | <cyan>Sucessfully hatched {json_data['data']['type']}!</cyan>")
 
     async def get_first_egg_and_hatch(self, http_client: aiohttp.ClientSession):
-        res = await http_client.post('https://elb.seeddao.org/api/v1/give-first-egg')
+        res = await http_client.post('https://alb.seeddao.org/api/v1/give-first-egg')
         if res.status == 200:
             logger.success(f"{self.session_name} <green>Successfully get first egg!</green>")
             json_egg = await res.json()
@@ -224,7 +224,7 @@ class Tapper:
                 logger.info(f"{self.session_name} | Failed | {checkin_data}")
 
     async def fetch_worm_status(self, http_client: aiohttp.ClientSession):
-        response = await http_client.get('https://elb.seeddao.org/api/v1/worms')
+        response = await http_client.get('https://alb.seeddao.org/api/v1/worms')
         if response.status == 200:
             worm_info = await response.json()
             next_refresh = worm_info['data'].get('next_worm')
@@ -247,7 +247,7 @@ class Tapper:
     async def capture_worm(self, http_client: aiohttp.ClientSession):
         worm_info = await self.fetch_worm_status(http_client)
         if worm_info and not worm_info.get('is_caught', True):
-            response = await http_client.post('https://elb.seeddao.org/api/v1/worms/catch')
+            response = await http_client.post('https://alb.seeddao.org/api/v1/worms/catch')
             if response.status == 200:
                 logger.success(f"{self.session_name} | <green>Worm Captured Successfully</green>")
             elif response.status == 400:
@@ -260,14 +260,14 @@ class Tapper:
             logger.info(f"{self.session_name} | Worm unavailable or already captured.")
 
     async def fetch_tasks(self, http_client: aiohttp.ClientSession):
-        response = await http_client.get('https://elb.seeddao.org/api/v1/tasks/progresses')
+        response = await http_client.get('https://alb.seeddao.org/api/v1/tasks/progresses')
         tasks = await response.json()
         for task in tasks['data']:
             if task['task_user'] is None:
                 await self.mark_task_complete(task['id'], task['name'], http_client)
 
     async def mark_task_complete(self, task_id, task_name, http_client: aiohttp.ClientSession):
-        response = await http_client.post(f'https://elb.seeddao.org/api/v1/tasks/{task_id}')
+        response = await http_client.post(f'https://alb.seeddao.org/api/v1/tasks/{task_id}')
         if response.status == 200:
             logger.success(f"{self.session_name} | <green>Task {task_name} marked complete.</green>")
         else:
@@ -384,7 +384,7 @@ class Tapper:
             return None
 
     async def get_price(self, worm_type, http_client: aiohttp.ClientSession):
-        api = f"https://elb.seeddao.org/api/v1/market/v2?market_type=worm&worm_type={worm_type}&sort_by_price=ASC&sort_by_updated_at=&page=1"
+        api = f"https://alb.seeddao.org/api/v1/market/v2?market_type=worm&worm_type={worm_type}&sort_by_price=ASC&sort_by_updated_at=&page=1"
         response = await http_client.get(api)
         if response.status == 200:
             json_r = await response.json()
@@ -393,7 +393,7 @@ class Tapper:
             return 0
 
     async def get_sale_data(self, http_client: aiohttp.ClientSession):
-        api = "https://elb.seeddao.org/api/v1/history-log-market/me?market_type=worm&page=1&history_type=sell"
+        api = "https://alb.seeddao.org/api/v1/history-log-market/me?market_type=worm&page=1&history_type=sell"
         response = await http_client.get(api)
         json_data = await response.json()
         worm_on_sale = {"common": 0, "uncommon": 0, "rare": 0, "epic": 0, "legendary": 0}
@@ -408,7 +408,7 @@ class Tapper:
         total_page = int(float(json_data['data']['total'] / json_data['data']['page_size'])) + count
         for page in range(2, total_page + 1):
             response = await http_client.get(
-                f"https://elb.seeddao.org/api/v1/history-log-market/me?market_type=worm&page={page}&history_type=sell",
+                f"https://alb.seeddao.org/api/v1/history-log-market/me?market_type=worm&page={page}&history_type=sell",
                 headers=headers)
             json_data = await response.json()
             for worm in json_data['data']['items']:
